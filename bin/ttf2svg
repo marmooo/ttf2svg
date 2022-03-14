@@ -1,0 +1,12 @@
+#!/usr/bin/env node
+
+const ttf2svg = require("../src/ttf2svg");
+
+const ttfPath = process.argv[2];
+const word = process.argv[3];
+
+if (3 <= process.argv.length && process.argv.length <= 4) {
+  ttf2svg(ttfPath, word);
+} else {
+  console.log("Usage: ttf2svg ttfPath [words]");
+}
