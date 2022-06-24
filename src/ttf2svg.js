@@ -86,7 +86,7 @@ function ttf2svg(ttfPath, words) {
   if (words) {
     if (words.length == 1) {
       const glyph = font.charToGlyph(words);
-      console.log(toSVG(font, glyph));
+      return toSVG(font, glyph);
     } else {
       const glyphs = words.split("")
         .map((word) => {
@@ -101,7 +101,7 @@ function ttf2svg(ttfPath, words) {
           });
           return glyph;
         });
-      console.log(toSVGFont(font, glyphs));
+      return toSVGFont(font, glyphs);
     }
   } else {
     // TODO: multiple missing-glyphs
@@ -113,7 +113,7 @@ function ttf2svg(ttfPath, words) {
         targetGlyphs.push(glyph);
       }
     });
-    console.log(toSVGFont(font, targetGlyphs));
+    return toSVGFont(font, targetGlyphs);
   }
 }
 
