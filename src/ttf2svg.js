@@ -59,7 +59,7 @@ function glyphHeader(font) {
   width="100" height="100">
 `;
   const copyright = fontToCopyright(font);
-  if (copyright) {
+  if (copyright != "") {
     header += `<!--
 ${copyright}
   -->
