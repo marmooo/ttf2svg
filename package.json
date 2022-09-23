@@ -1,6 +1,6 @@
 {
   "name": "@marmooo/ttf2svg",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "author": "marmooo",
   "description": "Convert TTF to SVG.",
   "license": "MIT",
