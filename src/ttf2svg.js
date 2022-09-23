@@ -18,11 +18,13 @@ function toSVG(font, glyph) {
     .scale(1, -1)
     .translate(0, font.ascender)
     .toString();
+  if (d == "") return undefined;
   const path = `<path d="${d}"/>`;
   return svgHeader(font, glyph) + path + "\n</svg>";
 }
 
 function getInfo(hash) {
+  if (!hash) return "";
   const arr = Object.values(hash);
   if (arr.length > 0) {
     return arr[0];
@@ -55,7 +57,7 @@ function glyphHeader(font) {
 ${copyright}
   -->
   <defs>
-    <font id="${getInfo(font.names.fullName)}"
+    <font name="${getInfo(font.names.fullName)}"
       horiz-adv-x="${font.tables.hhea.advanceWidthMax}" vert-adv-y="${font.unitsPerEm}" >
     <font-face font-family="${getInfo(font.names.fontFamily)}" font-weight="400"
       font-stretch="normal"
@@ -83,10 +85,11 @@ function toGlyphTag(font, glyphs) {
       .scale(1, -1)
       .translate(0, font.ascender)
       .toString();
+    if (d == "") return undefined;
     return `<glyph glyph-name="&#${glyph.unicode};" unicode="&#${glyph.unicode};"
       horiz-adv-x="${glyph.advanceWidth}" vert-adv-y="${font.unitsPerEm}"
       d="${d}"/>`;
-  }).join("\n");
+  }).filter((glyph) => glyph).join("\n");
 }
 
 function ttf2svg(ttfPath, words) {
