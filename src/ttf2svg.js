@@ -32,10 +32,18 @@ function getInfo(hash) {
 }
 
 function fontToCopyright(font) {
-  const copyrights = Object.values(font.names.copyright).join("\n");
-  const trademarks = Object.values(font.names.trademark).join("\n");
-  const licenses = Object.values(font.names.license).join("\n");
-  const licenseURLs = Object.values(font.names.licenseURL).join("\n");
+  const copyrights = font.names.copyright
+    ? Object.values(font.names.copyright).join("\n")
+    : "";
+  const trademarks = font.names.trademark
+    ? Object.values(font.names.trademark).join("\n")
+    : "";
+  const licenses = font.names.license
+    ? Object.values(font.names.license).join("\n")
+    : "";
+  const licenseURLs = font.names.licenseURL
+    ? Object.values(font.names.licenseURL).join("\n")
+    : "";
   return [copyrights, trademarks, licenses, licenseURLs].join("\n");
 }
 
