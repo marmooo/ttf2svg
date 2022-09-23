@@ -4,13 +4,17 @@ const svgpath = require("svgpath");
 function svgHeader(font, glyph) {
   const height = font.ascender - font.descender;
   const copyright = fontToCopyright(font);
-  return `<svg xmlns="http://www.w3.org/2000/svg"
+  let svg = `<svg xmlns="http://www.w3.org/2000/svg"
   width="100" height="100"
   viewBox="0 0 ${glyph.advanceWidth} ${height}">
-  <!--
+`;
+  if (copyright != "") {
+    svg += `  <!--
 ${copyright}
   -->
 `;
+  }
+  return svg;
 }
 
 function toSVG(font, glyph) {
@@ -46,16 +50,22 @@ function fontToCopyright(font) {
   const licenseURLs = font.names.licenseURL
     ? Object.values(font.names.licenseURL).join("\n")
     : "";
-  return [copyrights, trademarks, licenses, licenseURLs].join("\n");
+  const infos = [copyrights, trademarks, licenses, licenseURLs];
+  return infos.filter((info) => info).join("\n");
 }
 
 function glyphHeader(font) {
-  const copyright = fontToCopyright(font);
-  const header = `<svg xmlns="http://www.w3.org/2000/svg"
+  let header = `<svg xmlns="http://www.w3.org/2000/svg"
   width="100" height="100">
-  <!--
+`;
+  const copyright = fontToCopyright(font);
+  if (copyright) {
+    header += `<!--
 ${copyright}
   -->
+`;
+  }
+  header += `
   <defs>
     <font name="${getInfo(font.names.fullName)}"
       horiz-adv-x="${font.tables.hhea.advanceWidthMax}" vert-adv-y="${font.unitsPerEm}" >
