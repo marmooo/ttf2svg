@@ -1,5 +1,5 @@
-const opentype = require("opentype.js");
-const svgpath = require("svgpath");
+import opentype from "npm:opentype.js@1.3.4";
+import svgpath from "npm:svgpath@2.5.0";
 
 function svgHeader(font, glyph) {
   const height = font.ascender - font.descender;
@@ -102,7 +102,7 @@ function toGlyphTag(font, glyphs) {
   }).filter((glyph) => glyph).join("\n");
 }
 
-function ttf2svg(ttfPath, words) {
+export function ttf2svg(ttfPath, words) {
   const font = opentype.loadSync(ttfPath);
   if (words) {
     if (words.length == 1) {
@@ -137,5 +137,3 @@ function ttf2svg(ttfPath, words) {
     return toSVGFont(font, targetGlyphs);
   }
 }
-
-module.exports = ttf2svg;
