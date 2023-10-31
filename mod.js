@@ -1,5 +1,5 @@
 import opentype from "npm:opentype.js@1.3.4";
-import svgpath from "npm:svgpath@2.5.0";
+import svgpath from "npm:svgpath@2.6.0";
 
 function svgHeader(font, glyph) {
   const height = font.ascender - font.descender;
