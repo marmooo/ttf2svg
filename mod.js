@@ -28,7 +28,7 @@ function toSVG(font, glyph, options = {}) {
   const translateY = options.translateY ?? calcLineSpace(font);
   const d = svgpath(glyph.path.toPathData())
     .scale(1, -1)
-    .translate(0, translateY)
+    .translate(0, Number(translateY))
     .toString();
   if (d == "") return undefined;
   const path = `<path d="${d}"/>`;
