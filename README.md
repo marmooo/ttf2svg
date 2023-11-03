@@ -2,7 +2,7 @@
 
 Convert TTF to SVG.
 
-## Install
+## Installation
 
 ### Deno
 
@@ -18,6 +18,15 @@ npm install @marmooo/ttf2svg -g
 ```
 
 ## Usage
+
+```
+import { ttf2svg, ttf2svgFont } from "@marmooo/ttf2svg";
+
+ttf2svg(ttfPath, "漢", options);
+ttf2svgFont(ttfPath, undefined, options);
+```
+
+## CLI
 
 ```
 Usage: ttf2svg [options] <ttfPath> [chars]
