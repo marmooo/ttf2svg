@@ -16,7 +16,7 @@ program
   )
   .option(
     "--translate-y <number>",
-    "Glyph translateY value outputting a single character",
+    "Glyph translateY when outputting a single character",
   );
 program.parse();
 

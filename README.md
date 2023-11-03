@@ -32,7 +32,7 @@ Options:
   -V, --version           output the version number
   --font                  output as SVG font
   --height <number>       Glyph height when outputting a single character
-  --translate-y <number>  Glyph translateY value outputting a single character
+  --translate-y <number>  Glyph translateY when outputting a single character
   -h, --help              display help for command
 ```
 
