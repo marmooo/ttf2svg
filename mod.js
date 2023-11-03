@@ -7,11 +7,13 @@ function calcLineSpace(font) {
 }
 
 function svgHeader(font, glyph, options = {}) {
-  const width = glyph.advanceWidth;
-  const height = options.glyphHeight ?? calcLineSpace(font);
+  const widthAttribute = (options.width) ? `width="${options.width}"` : "";
+  const heightAttribute = (options.height) ? `height="${options.height}"` : "";
+  const glyphWidth = glyph.advanceWidth;
+  const glyphHeight = options.glyphHeight ?? calcLineSpace(font);
   const copyright = fontToCopyright(font);
   let svg = `<svg xmlns="http://www.w3.org/2000/svg"
-  viewBox="0 0 ${width} ${height}">
+  ${widthAttribute} ${heightAttribute} viewBox="0 0 ${glyphWidth} ${glyphHeight}">
 `;
   if (copyright != "") {
     svg += `  <!--

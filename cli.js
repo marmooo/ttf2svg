@@ -10,7 +10,9 @@ program
   .argument("<ttfPath>", "Path of TTF font path")
   .argument("[chars]", "Characters to convert to SVG")
   .option("--font", "output as SVG font")
-  .option("--gryph-height <number>", "Glyph height when outputting as SVG")
+  .option("--width <string>", "SVG width attribute value")
+  .option("--height <string>", "SVG height attribute value")
+  .option("--glyph-height <number>", "Glyph height when outputting as SVG")
   .option("--translate-y <number>", "Glyph translateY when outputting as SVG");
 program.parse();
 
@@ -24,7 +26,7 @@ if (options.font) {
   const result = ttf2svg(ttfPath, chars, options);
   const svgs = result.map(({ svg }) => svg);
   if (chars.length == 1) {
-    console.log(svgs);
+    console.log(svgs[0]);
   } else {
     const html = `<!doctype html>
 <html lang="en">
