@@ -18,19 +18,21 @@ const ttfPath = Deno.args[0];
 const chars = Deno.args[1];
 const options = program.opts();
 if (options.font) {
-  if (chars) {
-    const result = ttf2svgFont(ttfPath, chars, options);
-    console.log(result.join("\n"));
-  } else {
-    const result = ttf2svgFont(ttfPath, chars, options);
-    console.log(result);
-  }
+  const result = ttf2svgFont(ttfPath, chars, options);
+  console.log(result);
 } else {
-  if (chars) {
-    const result = ttf2svg(ttfPath, chars, options);
-    console.log(result.join("\n"));
+  const result = ttf2svg(ttfPath, chars, options);
+  const svgs = result.map(({ svg }) => svg);
+  if (chars.length == 1) {
+    console.log(svgs);
   } else {
-    const result = ttf2svg(ttfPath, chars, options);
-    console.log(result);
+    const html = `<!doctype html>
+<html lang="en">
+<head>
+  <title>SVG</title>
+</head>
+${svgs.join("\n")}
+</html>`;
+    console.log(html);
   }
 }

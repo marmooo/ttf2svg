@@ -41,7 +41,7 @@ Options:
 ```
 ttf2svg font.ttf a > a.svg
 ttf2svg font.ttf 漢 --translate-y 850 > 漢.svg
-ttf2svg font.ttf abc > abc.svg
+ttf2svg font.ttf abc > abc.html
 ttf2svg font.ttf > list.svg
 ttf2svg font.ttf --font > font.svg
 ```
