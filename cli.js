@@ -25,7 +25,7 @@ if (options.font) {
 } else {
   const result = ttf2svg(ttfPath, chars, options);
   const svgs = result.map(({ svg }) => svg);
-  if (chars && chars.length == 1) {
+  if (chars && Array.from(chars).length == 1) {
     console.log(svgs[0]);
   } else {
     const html = `<!doctype html>

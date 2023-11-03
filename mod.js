@@ -111,19 +111,18 @@ function toGlyphTag(font, glyphs) {
 export function ttf2svg(ttfPath, chars, options) {
   const font = opentype.loadSync(ttfPath);
   if (chars) {
-    const glyphs = chars.split("")
-      .map((char) => {
-        const targetGlyph = font.charToGlyph(char);
-        const codePoint = char.codePointAt(0);
-        const glyph = new opentype.Glyph({
-          // name: char,
-          unicode: codePoint,
-          glyphName: codePoint,
-          advanceWidth: targetGlyph.advanceWidth,
-          path: targetGlyph.path,
-        });
-        return glyph;
+    const glyphs = Array.from(chars).map((char) => {
+      const targetGlyph = font.charToGlyph(char);
+      const codePoint = char.codePointAt(0);
+      const glyph = new opentype.Glyph({
+        // name: char,
+        unicode: codePoint,
+        glyphName: codePoint,
+        advanceWidth: targetGlyph.advanceWidth,
+        path: targetGlyph.path,
       });
+      return glyph;
+    });
     return glyphs.map((glyph) => {
       const codePoint = glyph.unicode;
       const svg = toSVG(font, glyph, options);
@@ -150,19 +149,18 @@ export function ttf2svg(ttfPath, chars, options) {
 export function ttf2svgFont(ttfPath, chars) {
   const font = opentype.loadSync(ttfPath);
   if (chars) {
-    const glyphs = chars.split("")
-      .map((char) => {
-        const targetGlyph = font.charToGlyph(char);
-        const codePoint = char.codePointAt(0);
-        const glyph = new opentype.Glyph({
-          // name: char,
-          unicode: codePoint,
-          glyphName: codePoint,
-          advanceWidth: targetGlyph.advanceWidth,
-          path: targetGlyph.path,
-        });
-        return glyph;
+    const glyphs = Array.from(chars).map((char) => {
+      const targetGlyph = font.charToGlyph(char);
+      const codePoint = char.codePointAt(0);
+      const glyph = new opentype.Glyph({
+        // name: char,
+        unicode: codePoint,
+        glyphName: codePoint,
+        advanceWidth: targetGlyph.advanceWidth,
+        path: targetGlyph.path,
       });
+      return glyph;
+    });
     return toSVGFont(font, glyphs);
   } else {
     // TODO: multiple missing-glyphs
