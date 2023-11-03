@@ -8,7 +8,7 @@ function calcLineSpace(font) {
 
 function svgHeader(font, glyph, options = {}) {
   const width = glyph.advanceWidth;
-  const height = options.height ?? calcLineSpace(font);
+  const height = options.glyphHeight ?? calcLineSpace(font);
   const copyright = fontToCopyright(font);
   let svg = `<svg xmlns="http://www.w3.org/2000/svg"
   viewBox="0 0 ${width} ${height}">

@@ -25,15 +25,15 @@ Usage: ttf2svg [options] <ttfPath> [chars]
 Convert TTF to SVG.
 
 Arguments:
-  ttfPath                 Path of TTF font path
-  chars                   Characters to convert to SVG
+  ttfPath                  Path of TTF font path
+  chars                    Characters to convert to SVG
 
 Options:
-  -V, --version           output the version number
-  --font                  output as SVG font
-  --height <number>       Glyph height when outputting as SVG
-  --translate-y <number>  Glyph translateY when outputting as SVG
-  -h, --help              display help for command
+  -V, --version            output the version number
+  --font                   output as SVG font
+  --gryph-height <number>  Glyph height when outputting as SVG
+  --translate-y <number>   Glyph translateY when outputting as SVG
+  -h, --help               display help for command
 ```
 
 ## Examples
