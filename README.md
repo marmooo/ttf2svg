@@ -39,7 +39,7 @@ Options:
 ## Examples
 
 ```
-ttf2svg font.ttf a > g.svg
+ttf2svg font.ttf a > a.svg
 ttf2svg font.ttf 漢 --translate 850 > 漢.svg
 ttf2svg font.ttf abc > abc.svg
 ttf2svg font.ttf > list.svg
