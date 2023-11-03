@@ -7,7 +7,7 @@ program
   .description("Convert TTF to SVG.")
   .version("0.1.0");
 program
-  .argument("<ttfPath>", "Path of TTF font path")
+  .argument("<ttfPath>", "TTF font path")
   .argument("[chars]", "Characters to convert to SVG")
   .option("--font", "output as SVG font")
   .option("--width <string>", "SVG width attribute value")

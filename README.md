@@ -34,7 +34,7 @@ Usage: ttf2svg [options] <ttfPath> [chars]
 Convert TTF to SVG.
 
 Arguments:
-  ttfPath                  Path of TTF font path
+  ttfPath                  TTF font path
   chars                    Characters to convert to SVG
 
 Options:
