@@ -10,14 +10,8 @@ program
   .argument("<ttfPath>", "Path of TTF font path")
   .argument("[chars]", "Characters to convert to SVG")
   .option("--font", "output as SVG font")
-  .option(
-    "--height <number>",
-    "Glyph height when outputting a single character",
-  )
-  .option(
-    "--translate-y <number>",
-    "Glyph translateY when outputting a single character",
-  );
+  .option("--height <number>", "Glyph height when outputting as SVG")
+  .option("--translate-y <number>", "Glyph translateY when outputting as SVG");
 program.parse();
 
 const ttfPath = Deno.args[0];

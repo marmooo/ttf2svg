@@ -31,8 +31,8 @@ Arguments:
 Options:
   -V, --version           output the version number
   --font                  output as SVG font
-  --height <number>       Glyph height when outputting a single character
-  --translate-y <number>  Glyph translateY when outputting a single character
+  --height <number>       Glyph height when outputting as SVG
+  --translate-y <number>  Glyph translateY when outputting as SVG
   -h, --help              display help for command
 ```
 
@@ -40,7 +40,7 @@ Options:
 
 ```
 ttf2svg font.ttf a > a.svg
-ttf2svg font.ttf 漢 --translate 850 > 漢.svg
+ttf2svg font.ttf 漢 --translate-y 850 > 漢.svg
 ttf2svg font.ttf abc > abc.svg
 ttf2svg font.ttf > list.svg
 ttf2svg font.ttf --font > font.svg
