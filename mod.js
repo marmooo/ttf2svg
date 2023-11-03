@@ -98,7 +98,7 @@ function toSVGFont(font, targetGlyphs) {
 
 function toGlyphTag(font, glyphs) {
   const lineGap = font.lineGap ?? 0;
-  const height = font.ascender + font.descender + lineGap;
+  const height = font.ascender - font.descender + lineGap;
   return glyphs.map((glyph) => {
     const d = glyph.path.toPathData();
     if (d == "") return undefined;
