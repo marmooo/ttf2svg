@@ -40,7 +40,9 @@ Arguments:
 Options:
   -V, --version            output the version number
   --font                   output as SVG font
-  --gryph-height <number>  Glyph height when outputting as SVG
+  --width <string>         SVG width attribute value
+  --height <string>        SVG height attribute value
+  --glyph-height <number>  Glyph height when outputting as SVG
   --translate-y <number>   Glyph translateY when outputting as SVG
   -h, --help               display help for command
 ```
