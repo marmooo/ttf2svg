@@ -7,7 +7,7 @@ Convert TTF to SVG.
 ### Deno
 
 ```
-deno install -fr --allow-read --allow-write --name ttf2svg \
+deno install -fr --allow-read --name ttf2svg \
 https://raw.githubusercontent.com/marmooo/ttf2svg/main/cli.js
 ```
 
