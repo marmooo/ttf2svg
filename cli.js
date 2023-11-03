@@ -16,8 +16,8 @@ program
   .option("--translate-y <number>", "Glyph translateY when outputting as SVG");
 program.parse();
 
-const ttfPath = Deno.args[0];
-const chars = Deno.args[1];
+const ttfPath = program.args[0];
+const chars = program.args[1];
 const options = program.opts();
 if (options.font) {
   const result = ttf2svgFont(ttfPath, chars, options);
@@ -25,7 +25,7 @@ if (options.font) {
 } else {
   const result = ttf2svg(ttfPath, chars, options);
   const svgs = result.map(({ svg }) => svg);
-  if (chars.length == 1) {
+  if (chars && chars.length == 1) {
     console.log(svgs[0]);
   } else {
     const html = `<!doctype html>
