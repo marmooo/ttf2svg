@@ -33,7 +33,9 @@ if (options.font) {
 <head>
   <title>SVG</title>
 </head>
+<body>
 ${svgs.join("\n")}
+</body>
 </html>`;
     console.log(html);
   }
