@@ -24,7 +24,7 @@ ${copyright}
   return svg;
 }
 
-function toSVG(font, glyph, options = {}) {
+export function toSVG(font, glyph, options = {}) {
   const translateY = options.translateY ?? calcLineSpace(font);
   const d = svgpath(glyph.path.toPathData())
     .scale(1, -1)
@@ -92,7 +92,7 @@ function glyphFooter() {
 </svg>`;
 }
 
-function toSVGFont(font, targetGlyphs) {
+export function toSVGFont(font, targetGlyphs) {
   return glyphHeader(font) + toGlyphTag(font, targetGlyphs) + glyphFooter();
 }
 
@@ -108,70 +108,25 @@ function toGlyphTag(font, glyphs) {
   }).filter((glyph) => glyph).join("\n");
 }
 
+function selectGlyphs(font, chars) {
+  if (chars) {
+    return Array.from(chars).map((char) => font.charToGlyph(char));
+  } else {
+    return Object.values(font.glyphs.glyphs);
+  }
+}
+
 export function ttf2svg(ttfPath, chars, options) {
   const font = opentype.loadSync(ttfPath);
-  if (chars) {
-    const glyphs = Array.from(chars).map((char) => {
-      const targetGlyph = font.charToGlyph(char);
-      const codePoint = char.codePointAt(0);
-      const glyph = new opentype.Glyph({
-        // name: char,
-        unicode: codePoint,
-        glyphName: codePoint,
-        advanceWidth: targetGlyph.advanceWidth,
-        path: targetGlyph.path,
-      });
-      return glyph;
-    });
-    return glyphs.map((glyph) => {
-      const codePoint = glyph.unicode;
-      const svg = toSVG(font, glyph, options);
-      return { codePoint, svg };
-    });
-  } else {
-    // TODO: multiple missing-glyphs
-    const glyphs = Object.values(font.glyphs.glyphs);
-    const targetGlyphs = [];
-    glyphs.forEach((glyph) => {
-      if (glyph.unicode) {
-        // glyph.name = String.fromCodePoint(glyph.unicode);
-        targetGlyphs.push(glyph);
-      }
-    });
-    return glyphs.map((glyph) => {
-      const codePoint = glyph.unicode;
-      const svg = toSVG(font, glyph, options);
-      return { codePoint, svg };
-    });
-  }
+  const glyphs = selectGlyphs(font, chars);
+  return glyphs.map((glyph) => {
+    const svg = toSVG(font, glyph, options);
+    return { glyph, svg };
+  });
 }
 
 export function ttf2svgFont(ttfPath, chars) {
   const font = opentype.loadSync(ttfPath);
-  if (chars) {
-    const glyphs = Array.from(chars).map((char) => {
-      const targetGlyph = font.charToGlyph(char);
-      const codePoint = char.codePointAt(0);
-      const glyph = new opentype.Glyph({
-        // name: char,
-        unicode: codePoint,
-        glyphName: codePoint,
-        advanceWidth: targetGlyph.advanceWidth,
-        path: targetGlyph.path,
-      });
-      return glyph;
-    });
-    return toSVGFont(font, glyphs);
-  } else {
-    // TODO: multiple missing-glyphs
-    const glyphs = Object.values(font.glyphs.glyphs);
-    const targetGlyphs = [];
-    glyphs.forEach((glyph) => {
-      if (glyph.unicode) {
-        // glyph.name = String.fromCodePoint(glyph.unicode);
-        targetGlyphs.push(glyph);
-      }
-    });
-    return toSVGFont(font, targetGlyphs);
-  }
+  const glyphs = selectGlyphs(font, chars);
+  return toSVGFont(font, glyphs);
 }
