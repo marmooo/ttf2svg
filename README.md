@@ -22,7 +22,7 @@ npm install @marmooo/ttf2svg -g
 ```
 import { ttf2svg, ttf2svgFont } from "@marmooo/ttf2svg";
 
-ttf2svg(ttfPath, "漢", { font: true });
+ttf2svg(ttfPath, "漢", { width: 100 });
 ttf2svgFont(ttfPath, undefined, options);
 ```
 
