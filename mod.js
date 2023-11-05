@@ -25,7 +25,7 @@ ${copyright}
 }
 
 export function toSVG(font, glyph, options = {}) {
-  const translateY = options.translateY ?? calcLineSpace(font);
+  const translateY = options.translateY ?? font.ascender;
   const d = svgpath(glyph.path.toPathData())
     .scale(1, -1)
     .translate(0, Number(translateY))
