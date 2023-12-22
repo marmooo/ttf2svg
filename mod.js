@@ -110,9 +110,7 @@ function toGlyphTag(font, glyphs, options) {
   if (options.removeNotdef) {
     return existed;
   } else {
-    const notdefPos = font.cffEncoding.charset
-      .findIndex((name) => name == ".notdef");
-    const notdefGlyph = glyphs[notdefPos];
+    const notdefGlyph = font.glyphs.get(0);
     const d = notdefGlyph.path.toPathData();
     const notDef = `<missing-glyph glyph-name=".notdef"
       horiz-adv-x="${notdefGlyph.advanceWidth}" vert-adv-y="${height}"
