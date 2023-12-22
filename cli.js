@@ -13,7 +13,8 @@ program
   .option("--width <string>", "SVG width attribute value")
   .option("--height <string>", "SVG height attribute value")
   .option("--glyph-height <number>", "Glyph height when outputting as SVG")
-  .option("--translate-y <number>", "Glyph translateY when outputting as SVG");
+  .option("--translate-y <number>", "Glyph translateY when outputting as SVG")
+  .option("--remove-notdef", "remove .notdef");
 program.parse();
 
 const ttfPath = program.args[0];

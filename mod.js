@@ -92,20 +92,33 @@ function glyphFooter() {
 </svg>`;
 }
 
-export function toSVGFont(font, targetGlyphs) {
-  return glyphHeader(font) + toGlyphTag(font, targetGlyphs) + glyphFooter();
+export function toSVGFont(font, targetGlyphs, options) {
+  return glyphHeader(font) + toGlyphTag(font, targetGlyphs, options) +
+    glyphFooter();
 }
 
-function toGlyphTag(font, glyphs) {
+function toGlyphTag(font, glyphs, options) {
   const lineGap = font.lineGap ?? 0;
   const height = font.ascender - font.descender + lineGap;
-  return glyphs.map((glyph) => {
+  const existed = glyphs.filter((glyph) => glyph.unicode).map((glyph) => {
     const d = glyph.path.toPathData();
     if (d == "") return undefined;
     return `<glyph glyph-name="&#${glyph.unicode};" unicode="&#${glyph.unicode};"
       horiz-adv-x="${glyph.advanceWidth}" vert-adv-y="${height}"
       d="${d}"/>`;
   }).filter((glyph) => glyph).join("\n");
+  if (options.removeNotdef) {
+    return existed;
+  } else {
+    const notdefPos = font.cffEncoding.charset
+      .findIndex((name) => name == ".notdef");
+    const notdefGlyph = glyphs[notdefPos];
+    const d = notdefGlyph.path.toPathData();
+    const notDef = `<missing-glyph glyph-name=".notdef"
+      horiz-adv-x="${notdefGlyph.advanceWidth}" vert-adv-y="${height}"
+      d="${d}"/>`;
+    return existed + "\n" + notDef;
+  }
 }
 
 function selectGlyphs(font, chars) {
@@ -116,7 +129,7 @@ function selectGlyphs(font, chars) {
   }
 }
 
-export function ttf2svg(ttfPath, chars, options) {
+export function ttf2svg(ttfPath, chars, options = {}) {
   const font = opentype.loadSync(ttfPath);
   const glyphs = selectGlyphs(font, chars);
   return glyphs.map((glyph) => {
@@ -125,8 +138,8 @@ export function ttf2svg(ttfPath, chars, options) {
   });
 }
 
-export function ttf2svgFont(ttfPath, chars) {
+export function ttf2svgFont(ttfPath, chars, options = {}) {
   const font = opentype.loadSync(ttfPath);
   const glyphs = selectGlyphs(font, chars);
-  return toSVGFont(font, glyphs);
+  return toSVGFont(font, glyphs, options);
 }
