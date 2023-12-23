@@ -44,6 +44,7 @@ Options:
   --height <string>        SVG height attribute value
   --glyph-height <number>  Glyph height when outputting as SVG
   --translate-y <number>   Glyph translateY when outputting as SVG
+  --remove-notdef          remove .notdef
   -h, --help               display help for command
 ```
 
