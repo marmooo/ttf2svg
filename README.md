@@ -59,7 +59,7 @@ Options:
 
 ```
 ttf2svg font.ttf > list.html
-ttf2svg font.otf --text abcdef --translate-y 850 > 漢.svg
+ttf2svg font.otf --text abcdef --translate-y 850 > abcdef.svg
 ttf2svg font.otf --code 0x61,98 > code.html
 ttf2svg font.woff --font > font.svg
 ttf2svg font.woff --text-file characters.lst --font > text.svg
