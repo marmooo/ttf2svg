@@ -22,23 +22,30 @@ npm install @marmooo/ttf2svg -g
 ```
 import { ttf2svg, ttf2svgFont } from "@marmooo/ttf2svg";
 
-ttf2svg(ttfPath, "漢", { width: 100 });
-ttf2svgFont(ttfPath, undefined, options);
+const font = Deno.readFileSync("font.ttf");
+ttf2svg(font);
+ttf2svg(font, { text: "abcdef", width: 100 });
+ttf2svg(font, { code: "0x61,98" });
+ttf2svgFont(font);
+ttf2svgFont(font, { codeFile: "codepoints.lst" });
 ```
 
 ## CLI
 
 ```
-Usage: ttf2svg [options] <ttfPath> [chars]
+Usage: ttf2svg [options] <fontPath>
 
 Convert TTF to SVG.
 
 Arguments:
-  ttfPath                  TTF font path
-  chars                    Characters to convert to SVG
+  fontPath                 Font path (.otf, .ttf, .woff)
 
 Options:
   -V, --version            output the version number
+  --text <string>          characters to compress
+  --text-file <path>       Path of line separated character file to compress
+  --code <string>          comma separated codepoints to compress
+  --code-file <path>       Path of line separated codepoint file to compress
   --font                   output as SVG font
   --width <string>         SVG width attribute value
   --height <string>        SVG height attribute value
@@ -51,11 +58,11 @@ Options:
 ## Examples
 
 ```
-ttf2svg font.ttf a > a.svg
-ttf2svg font.ttf 漢 --translate-y 850 > 漢.svg
-ttf2svg font.ttf abc > abc.html
-ttf2svg font.ttf > list.svg
-ttf2svg font.ttf --font > font.svg
+ttf2svg font.ttf > list.html
+ttf2svg font.otf --text abcdef --translate-y 850 > 漢.svg
+ttf2svg font.otf --code 0x61,98 > code.html
+ttf2svg font.woff --font > font.svg
+ttf2svg font.woff --text-file characters.lst --font > text.svg
 ```
 
 ## License

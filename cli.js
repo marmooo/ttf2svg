@@ -7,8 +7,17 @@ program
   .description("Convert TTF to SVG.")
   .version("0.1.2");
 program
-  .argument("<ttfPath>", "TTF font path")
-  .argument("[chars]", "Characters to convert to SVG")
+  .argument("<fontPath>", "Font path (.otf, .ttf, .woff)")
+  .option("--text <string>", "characters to compress")
+  .option(
+    "--text-file <path>",
+    "Path of line separated character file to compress",
+  )
+  .option("--code <string>", "comma separated codepoints to compress")
+  .option(
+    "--code-file <path>",
+    "Path of line separated codepoint file to compress",
+  )
   .option("--font", "output as SVG font")
   .option("--width <string>", "SVG width attribute value")
   .option("--height <string>", "SVG height attribute value")
@@ -17,16 +26,16 @@ program
   .option("--remove-notdef", "remove .notdef");
 program.parse();
 
-const ttfPath = program.args[0];
-const chars = program.args[1];
+const fontPath = program.args[0];
 const options = program.opts();
+
+const font = Deno.readFileSync(fontPath);
 if (options.font) {
-  const result = ttf2svgFont(ttfPath, chars, options);
+  const result = ttf2svgFont(font, options);
   console.log(result);
 } else {
-  const result = ttf2svg(ttfPath, chars, options);
-  const svgs = result.map(({ svg }) => svg);
-  if (chars && Array.from(chars).length == 1) {
+  const svgs = ttf2svg(font, options);
+  if (svgs.length == 1) {
     console.log(svgs[0]);
   } else {
     const html = `<!doctype html>

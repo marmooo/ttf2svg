@@ -1,8 +1,8 @@
-import opentype from "npm:opentype.js@1.3.4";
+import { parse } from "npm:opentype.js@1.3.4";
 import svgpath from "npm:svgpath@2.6.0";
 
 function calcLineSpace(font) {
-  const lineGap = font.lineGap ?? 0;
+  const lineGap = font.tables.hhea?.lineGap ?? 0;
   return font.ascender - font.descender + lineGap;
 }
 
@@ -92,21 +92,21 @@ function glyphFooter() {
 </svg>`;
 }
 
-export function toSVGFont(font, targetGlyphs, options) {
-  return glyphHeader(font) + toGlyphTag(font, targetGlyphs, options) +
+export function toSVGFont(font, glyphs, options) {
+  return glyphHeader(font) + toGlyphTag(font, glyphs, options) +
     glyphFooter();
 }
 
-function toGlyphTag(font, glyphs, options) {
-  const lineGap = font.lineGap ?? 0;
+export function toGlyphTag(font, glyphs, options) {
+  const lineGap = font.tables.hhea?.lineGap ?? 0;
   const height = font.ascender - font.descender + lineGap;
   const existed = glyphs.filter((glyph) => glyph.unicode).map((glyph) => {
     const d = glyph.path.toPathData();
     if (d == "") return undefined;
-    return `<glyph glyph-name="&#${glyph.unicode};" unicode="&#${glyph.unicode};"
+    return `<glyph glyph-name="${glyph.name}" unicode="&#${glyph.unicode};"
       horiz-adv-x="${glyph.advanceWidth}" vert-adv-y="${height}"
       d="${d}"/>`;
-  }).filter((glyph) => glyph).join("\n");
+  }).filter((glyphTag) => glyphTag).join("\n");
   if (options.removeNotdef) {
     return existed;
   } else {
@@ -119,25 +119,51 @@ function toGlyphTag(font, glyphs, options) {
   }
 }
 
-function selectGlyphs(font, chars) {
-  if (chars) {
-    return Array.from(chars).map((char) => font.charToGlyph(char));
+function getGlyphString(options = {}) {
+  if (options.textFile) {
+    const text = Deno.readTextFileSync(options.textFile);
+    return text.trimEnd().replace(/\n/g, "");
+  } else if (options.codeFile) {
+    const text = Deno.readTextFileSync(options.codeFile);
+    return text.trimEnd().split("\n")
+      .map((line) => String.fromCodePoint(Number(line))).join("");
+  } else if (options.text) {
+    return options.text;
+  } else if (options.code) {
+    return options.code.split(",")
+      .map((code) => String.fromCodePoint(Number(code))).join("");
+  } else {
+    return undefined;
+  }
+}
+
+export function filterGlyphs(font, options = {}) {
+  const glyphString = getGlyphString(options);
+  if (glyphString) {
+    return font.stringToGlyphs(glyphString);
   } else {
     return Object.values(font.glyphs.glyphs);
   }
 }
 
-export function ttf2svg(ttfPath, chars, options = {}) {
-  const font = opentype.loadSync(ttfPath);
-  const glyphs = selectGlyphs(font, chars);
+export function font2svg() {
+  const glyphs = filterGlyphs(font, options);
   return glyphs.map((glyph) => {
-    const svg = toSVG(font, glyph, options);
-    return { glyph, svg };
+    return toSVG(font, glyph, options);
   });
 }
 
-export function ttf2svgFont(ttfPath, chars, options = {}) {
-  const font = opentype.loadSync(ttfPath);
-  const glyphs = selectGlyphs(font, chars);
+export function ttf2svg(uint8array, options = {}) {
+  const font = parse(uint8array.buffer);
+  font2svg(font, options);
+}
+
+export function ttf2svgFont(uint8array, options = {}) {
+  const font = parse(uint8array.buffer);
+  font2svgFont(font, options);
+}
+
+export function font2svgFont(font, options = {}) {
+  const glyphs = filterGlyphs(font, options);
   return toSVGFont(font, glyphs, options);
 }
