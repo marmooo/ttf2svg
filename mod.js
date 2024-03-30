@@ -155,12 +155,12 @@ export function font2svg() {
 
 export function ttf2svg(uint8array, options = {}) {
   const font = parse(uint8array.buffer);
-  font2svg(font, options);
+  return font2svg(font, options);
 }
 
 export function ttf2svgFont(uint8array, options = {}) {
   const font = parse(uint8array.buffer);
-  font2svgFont(font, options);
+  return font2svgFont(font, options);
 }
 
 export function font2svgFont(font, options = {}) {
