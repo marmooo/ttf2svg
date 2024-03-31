@@ -146,7 +146,7 @@ export function filterGlyphs(font, options = {}) {
   }
 }
 
-export function font2svg() {
+export function font2svg(font, options) {
   const glyphs = filterGlyphs(font, options);
   return glyphs.map((glyph) => {
     return toSVG(font, glyph, options);
