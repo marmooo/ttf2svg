@@ -1,6 +1,8 @@
 import { parse } from "npm:opentype.js@1.3.4";
 import svgpath from "npm:svgpath@2.6.0";
 
+export { parse };
+
 function calcLineSpace(font) {
   const lineGap = font.tables.hhea?.lineGap ?? 0;
   return font.ascender - font.descender + lineGap;
