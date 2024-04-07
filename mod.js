@@ -105,7 +105,8 @@ export function toGlyphTag(font, glyphs, options) {
   const existed = glyphs.filter((glyph) => glyph.unicode).map((glyph) => {
     const d = glyph.path.toPathData();
     if (d == "") return undefined;
-    return `<glyph glyph-name="${glyph.name}" unicode="&#${glyph.unicode};"
+    const glyphName = (glyph.name) ? `glyph-name="${glyph.name}"` : "";
+    return `<glyph ${glyphName} unicode="&#${glyph.unicode};"
       horiz-adv-x="${glyph.advanceWidth}" vert-adv-y="${height}"
       d="${d}"/>`;
   }).filter((glyphTag) => glyphTag).join("\n");
