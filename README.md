@@ -46,6 +46,8 @@ Options:
   --text-file <path>       Path of line separated character file to compress
   --code <string>          comma separated codepoints to compress
   --code-file <path>       Path of line separated codepoint file to compress
+  --name <string>          comma separated glyph names to compress
+  --name-file <path>       Path of line separated glyph name file to compress
   --font                   output as SVG font
   --width <string>         SVG width attribute value
   --height <string>        SVG height attribute value
