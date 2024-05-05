@@ -64,10 +64,12 @@ Options:
 
 ```
 ttf2svg font.ttf > list.html
-ttf2svg font.otf --text abcdef --translate-y 850 > abcdef.svg
-ttf2svg font.otf --code 0x61,98 > code.html
 ttf2svg font.woff --font > font.svg
-ttf2svg font.woff --text-file characters.lst --font > text.svg
+ttf2svg font.otf --text abcdef --translate-y 850 > abcdef.svg
+ttf2svg font.otf --text-file characters.lst --font > font.svg
+ttf2svg font.woff2 --code 0x61,98 > font.html
+ttf2svg font.woff2 --name alarm,box --font > font.svg
+ttf2svg font.woff2 --ligature home,menu --font > font.svg
 ```
 
 ## License
