@@ -23,6 +23,11 @@ program
     "--name-file <path>",
     "Path of line separated glyph name file to compress",
   )
+  .option("--ligature <string>", "comma separated ligatures to compress")
+  .option(
+    "--ligature-file <path>",
+    "Path of line separated ligature file to compress",
+  )
   .option("--font", "output as SVG font")
   .option("--width <string>", "SVG width attribute value")
   .option("--height <string>", "SVG height attribute value")

@@ -117,7 +117,7 @@ export function toGlyphTags(font, glyphs, options) {
 `;
   }
   if (!options.removeLigatures) {
-    const ligatures = getLigatureMap(font);
+    const ligatures = getLigatureMap(font, "by");
     for (const glyph of glyphs) {
       if (!glyph.unicode) continue;
       const d = glyph.path.toPathData();
