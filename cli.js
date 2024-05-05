@@ -23,7 +23,11 @@ program
   .option("--height <string>", "SVG height attribute value")
   .option("--glyph-height <number>", "Glyph height when outputting as SVG")
   .option("--translate-y <number>", "Glyph translateY when outputting as SVG")
-  .option("--remove-notdef", "remove .notdef");
+  .option("--remove-notdef", "remove .notdef")
+  .option(
+    "--remove-ligatures",
+    "remove ligatures associated with the glyphs",
+  );
 program.parse();
 
 const fontPath = program.args[0];

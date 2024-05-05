@@ -52,6 +52,7 @@ Options:
   --glyph-height <number>  Glyph height when outputting as SVG
   --translate-y <number>   Glyph translateY when outputting as SVG
   --remove-notdef          remove .notdef
+  --remove-ligatures       remove ligatures associated with the glyphs
   -h, --help               display help for command
 ```
 
