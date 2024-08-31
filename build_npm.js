@@ -22,7 +22,7 @@ await build({
     license: "MIT",
     repository: {
       type: "git",
-      url: "git+https://github.com/marmooo/ttf2svg/repo.git",
+      url: "git+https://github.com/marmooo/ttf2svg.git",
     },
     bugs: {
       url: "https://github.com/marmooo/ttf2svg/issues",
