@@ -7,7 +7,7 @@ await build({
     "./mod.js",
     {
       kind: "bin",
-      name: "@marmooo/ttf2svg",
+      name: "ttf2svg",
       path: "./cli.js",
     },
   ],
