@@ -1,4 +1,4 @@
-import { Command } from "npm:commander@12.1.0";
+import { Command } from "commander";
 import { ttf2svg, ttf2svgFont } from "./mod.js";
 
 const program = new Command();

@@ -1,0 +1,8 @@
+{
+  "imports": {
+    "@deno/dnt": "jsr:@deno/dnt@^0.41.3",
+    "commander": "npm:commander@13.1.0",
+    "opentype.js": "npm:opentype.js@1.3.4",
+    "svgpath": "npm:svgpath@2.6.0"
+  }
+}

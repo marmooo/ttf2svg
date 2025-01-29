@@ -1,5 +1,5 @@
-import { parse } from "npm:opentype.js@1.3.4";
-import svgpath from "npm:svgpath@2.6.0";
+import { parse } from "opentype.js";
+import svgpath from "svgpath";
 import { getLigatureMap } from "./ligature.js";
 
 export { parse };
