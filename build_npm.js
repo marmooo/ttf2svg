@@ -1,3 +1,4 @@
+import { copySync } from "@std/fs";
 import { build, emptyDir } from "@deno/dnt";
 
 await emptyDir("./npm");
@@ -12,6 +13,10 @@ await build({
     },
   ],
   outDir: "./npm",
+  importMap: "deno.json",
+  compilerOptions: {
+    lib: ["ESNext"],
+  },
   shims: {
     deno: true,
   },
@@ -31,5 +36,7 @@ await build({
   postBuild() {
     Deno.copyFileSync("LICENSE", "npm/LICENSE");
     Deno.copyFileSync("README.md", "npm/README.md");
+    copySync("test", "npm/esm/test");
+    copySync("test", "npm/script/test");
   },
 });
