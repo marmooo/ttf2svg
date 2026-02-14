@@ -1,4 +1,4 @@
-import { Command } from "commander";
+import { Command, Option } from "commander";
 import { ttf2svg, ttf2svgFont } from "./mod.js";
 
 const program = new Command();
@@ -31,6 +31,11 @@ program
   .option("--font", "output as SVG font")
   .option("--width <string>", "SVG width attribute value")
   .option("--height <string>", "SVG height attribute value")
+  .addOption(
+    new Option("--metrics <string>", "source of font metrics")
+      .choices(["typo", "win", "hhea"])
+      .default("typo"),
+  )
   .option("--glyph-height <number>", "Glyph height when outputting as SVG")
   .option("--translate-y <number>", "Glyph translateY when outputting as SVG")
   .option("--remove-notdef", "remove .notdef")
