@@ -88,7 +88,7 @@ function fontToCopyright(font) {
   return infos.filter((info) => info).join("\n");
 }
 
-function glyphHeader(font) {
+function glyphHeader(font, options) {
   const { metrics = "typo" } = options;
   const os2 = font.tables.os2;
   let asc, desc, lineGap;
@@ -136,7 +136,7 @@ function glyphFooter() {
 }
 
 export function toSVGFont(font, glyphs, options) {
-  return glyphHeader(font) + toGlyphTags(font, glyphs, options) +
+  return glyphHeader(font, options) + toGlyphTags(font, glyphs, options) +
     glyphFooter();
 }
 
