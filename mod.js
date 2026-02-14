@@ -114,7 +114,8 @@ export function toGlyphTags(font, glyphs, options) {
     const unicode = (glyph.unicode === 34)
       ? "&#34;" // escape '"'
       : String.fromCodePoint(glyph.unicode);
-    svg += `    <glyph glyph-name="${glyph.name}" unicode="${unicode}"
+    const glyphNameAttr = glyph.name ? `glyph-name="${glyph.name}"` : "";
+    svg += `    <glyph ${glyphNameAttr} unicode="${unicode}"
       horiz-adv-x="${glyph.advanceWidth}" vert-adv-y="${height}"
       d="${d}"/>
 `;
