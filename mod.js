@@ -4,19 +4,32 @@ import { getLigatureMap } from "./ligature.js";
 
 export { parse };
 
-function calcLineSpace(font) {
-  const lineGap = font.tables.hhea?.lineGap ?? 0;
-  return font.ascender - font.descender + lineGap;
-}
-
-function svgHeader(font, glyph, options = {}) {
-  const widthAttribute = (options.width) ? `width="${options.width}"` : "";
-  const heightAttribute = (options.height) ? `height="${options.height}"` : "";
-  const glyphWidth = glyph.advanceWidth;
-  const glyphHeight = options.glyphHeight ?? calcLineSpace(font);
+function svgHeader(font, options = {}) {
+  const {
+    width = null,
+    height = null,
+    metrics = "typo",
+  } = options;
+  const os2 = font.tables.os2;
+  let asc, desc;
+  if (metrics === "typo" && os2) {
+    asc = os2.sTypoAscender;
+    desc = os2.sTypoDescender;
+  } else if (metrics === "win" && os2) {
+    asc = os2.usWinAscent;
+    desc = -os2.usWinDescent;
+  } else {
+    asc = font.ascender;
+    desc = font.descender;
+  }
+  if (desc > 0) desc = -desc;
+  const widthAttr = width ? `width="${width}"` : "";
+  const heightAttr = height ? `height="${height}"` : "";
+  const upm = font.unitsPerEm;
+  const vh = asc - desc;
   const copyright = fontToCopyright(font);
   let svg = `<svg xmlns="http://www.w3.org/2000/svg"
-  ${widthAttribute} ${heightAttribute} viewBox="0 0 ${glyphWidth} ${glyphHeight}">
+  ${widthAttr} ${heightAttr} viewBox="0 0 ${upm} ${vh}">
 `;
   if (copyright != "") {
     svg += `  <!--
@@ -28,14 +41,24 @@ ${copyright}
 }
 
 export function toSVG(font, glyph, options = {}) {
-  const translateY = options.translateY ?? font.ascender;
+  const { metrics = "typo" } = options;
+  const os2 = font.tables.os2;
+  let asc;
+  if (metrics === "typo" && os2) {
+    asc = os2.sTypoAscender;
+  } else if (metrics === "win" && os2) {
+    asc = os2.usWinAscent;
+  } else {
+    asc = font.ascender;
+  }
+  const translateY = options.translateY ?? asc;
   const d = svgpath(glyph.path.toPathData())
     .scale(1, -1)
-    .translate(0, Number(translateY))
+    .translate(0, translateY)
     .toString();
   if (d == "") return undefined;
   const path = `<path d="${d}"/>`;
-  return svgHeader(font, glyph, options) + path + "\n</svg>";
+  return svgHeader(font, options) + path + "\n</svg>";
 }
 
 function getInfo(hash) {
@@ -66,6 +89,23 @@ function fontToCopyright(font) {
 }
 
 function glyphHeader(font) {
+  const { metrics = "typo" } = options;
+  const os2 = font.tables.os2;
+  let asc, desc, lineGap;
+  if (metrics === "typo" && os2) {
+    asc = os2.sTypoAscender;
+    desc = os2.sTypoDescender;
+    lineGap = os2.sTypoLineGap;
+  } else if (metrics === "win" && os2) {
+    asc = os2.usWinAscent;
+    desc = -os2.usWinDescent;
+    lineGap = 0;
+  } else {
+    asc = font.ascender;
+    desc = font.descender;
+    lineGap = font.tables.hhea?.lineGap ?? 0;
+  }
+  const height = asc - desc + lineGap;
   let header = `<svg xmlns="http://www.w3.org/2000/svg">
 `;
   const copyright = fontToCopyright(font);
@@ -78,7 +118,7 @@ ${copyright}
   header += `
   <defs>
     <font name="${getInfo(font.names.fullName)}"
-      horiz-adv-x="${font.unitsPerEm}" vert-adv-y="${font.unitsPerEm}" >
+      horiz-adv-x="${font.unitsPerEm}" vert-adv-y="${height}" >
     <font-face font-family="${getInfo(font.names.fontFamily)}" font-weight="400"
       font-stretch="normal"
       units-per-em="${font.unitsPerEm}"
