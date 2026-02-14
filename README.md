@@ -52,6 +52,7 @@ Options:
   --font                   output as SVG font
   --width <string>         SVG width attribute value
   --height <string>        SVG height attribute value
+  --metrics <string>       source of font metrics (choices: "typo", "win", "hhea", default: "typo")
   --glyph-height <number>  Glyph height when outputting as SVG
   --translate-y <number>   Glyph translateY when outputting as SVG
   --remove-notdef          remove .notdef
