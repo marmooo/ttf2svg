@@ -184,24 +184,6 @@ export function toGlyphTags(font, glyphs, options) {
   }
 }
 
-function getGlyphString(options = {}) {
-  if (options.textFile) {
-    const text = Deno.readTextFileSync(options.textFile);
-    return text.trimEnd().replace(/\n/g, "");
-  } else if (options.codeFile) {
-    const text = Deno.readTextFileSync(options.codeFile);
-    return text.trimEnd().split("\n")
-      .map((line) => String.fromCodePoint(Number(line))).join("");
-  } else if (options.text) {
-    return options.text;
-  } else if (options.code) {
-    return options.code.split(",")
-      .map((code) => String.fromCodePoint(Number(code))).join("");
-  } else {
-    return;
-  }
-}
-
 function filterByNameSet(font, nameSet) {
   const result = [];
   for (const glyph of Object.values(font.glyphs.glyphs)) {
@@ -213,19 +195,26 @@ function filterByNameSet(font, nameSet) {
 function filterByLigatureSet(font, ligatureSet) {
   const glyphs = font.glyphs.glyphs;
   const result = [];
-  for (const lig of parseLigatures(font)) {
-    if (ligatureSet.has(lig.name)) {
-      const g = glyphs[lig.by.toString()];
-      if (g) result.push(g);
+  for (const ligature of parseLigatures(font)) {
+    if (ligatureSet.has(ligature.name)) {
+      const glyph = glyphs[ligature.by.toString()];
+      if (glyph) result.push(glyph);
     }
   }
   return result;
 }
 
 export function filterGlyphs(font, options = {}) {
-  const glyphString = getGlyphString(options);
-  if (glyphString) return font.stringToGlyphs(glyphString);
-  if (options.nameFile) {
+  if (options.textFile) {
+    const text = Deno.readTextFileSync(options.textFile);
+    const glyphString = text.trimEnd().replace(/\n/g, "");
+    return font.stringToGlyphs(glyphString);
+  } else if (options.codeFile) {
+    const text = Deno.readTextFileSync(options.codeFile);
+    const glyphString = text.trimEnd().split("\n")
+      .map((line) => String.fromCodePoint(Number(line))).join("");
+    return font.stringToGlyphs(glyphString);
+  } else if (options.nameFile) {
     const text = Deno.readTextFileSync(options.nameFile);
     const nameSet = new Set(text.trimEnd().split("\n"));
     return filterByNameSet(font, nameSet);
@@ -233,6 +222,12 @@ export function filterGlyphs(font, options = {}) {
     const text = Deno.readTextFileSync(options.ligatureFile);
     const ligatureSet = new Set(text.trimEnd().split("\n"));
     return filterByLigatureSet(font, ligatureSet);
+  } else if (options.text) {
+    return font.stringToGlyphs(options.text);
+  } else if (options.code) {
+    const glyphString = options.code.split(",")
+      .map((code) => String.fromCodePoint(Number(code))).join("");
+    return font.stringToGlyphs(glyphString);
   } else if (options.name) {
     const nameSet = new Set(options.name.split(","));
     return filterByNameSet(font, nameSet);
