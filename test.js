@@ -3,8 +3,9 @@ import { assert } from "@std/assert";
 
 const roboto = Deno.readFileSync("./test/Roboto-Regular.ttf");
 const materialIcons = Deno.readFileSync("./test/material-icons.ttf");
+
 Deno.test("text check", () => {
-  const svg = ttf2svg(materialIcons, { text: "a" });
+  const svg = ttf2svg(roboto, { text: "a" });
   assert(svg.length === 1);
   const svgs = ttf2svg(roboto);
   assert(svgs.length !== 1);
