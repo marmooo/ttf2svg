@@ -22,7 +22,7 @@ await build({
   },
   package: {
     name: "@marmooo/ttf2svg",
-    version: "0.2.6",
+    version: "0.2.7",
     description: "Convert TTF to SVG.",
     license: "MIT",
     repository: {
