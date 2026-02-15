@@ -253,6 +253,11 @@ export function filterGlyphs(font, options = {}) {
 
 export function font2svg(font, options) {
   const glyphs = filterGlyphs(font, options);
+  if (glyphs.length < 1) {
+    throw new Error(
+      `No glyphs found for the given options: ${JSON.stringify(options)}`,
+    );
+  }
   return glyphs.map((glyph) => {
     return toSVG(font, glyph, options);
   });
