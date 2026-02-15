@@ -5,7 +5,7 @@ const program = new Command();
 program
   .name("ttf2svg")
   .description("Convert TTF to SVG.")
-  .version("0.2.7");
+  .version("0.2.8");
 program
   .argument("<fontPath>", "Font path (.otf, .ttf, .woff)")
   .option("--text <string>", "characters to compress")
