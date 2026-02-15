@@ -1,6 +1,6 @@
 import { parse } from "opentype.js";
 import svgpath from "svgpath";
-import { getLigatureMap } from "./ligature.js";
+import { getLigatureMap, parseLigatures } from "./ligature.js";
 
 export { parse };
 
@@ -198,14 +198,47 @@ function getGlyphString(options = {}) {
     return options.code.split(",")
       .map((code) => String.fromCodePoint(Number(code))).join("");
   } else {
-    return undefined;
+    return;
   }
+}
+
+function filterByNameSet(font, nameSet) {
+  const result = [];
+  for (const glyph of Object.values(font.glyphs.glyphs)) {
+    if (nameSet.has(glyph.name)) result.push(glyph);
+  }
+  return result;
+}
+
+function filterByLigatureSet(font, ligatureSet) {
+  const glyphs = font.glyphs.glyphs;
+  const result = [];
+  for (const lig of parseLigatures(font)) {
+    if (ligatureSet.has(lig.name)) {
+      const g = glyphs[lig.by.toString()];
+      if (g) result.push(g);
+    }
+  }
+  return result;
 }
 
 export function filterGlyphs(font, options = {}) {
   const glyphString = getGlyphString(options);
-  if (glyphString) {
-    return font.stringToGlyphs(glyphString);
+  if (glyphString) return font.stringToGlyphs(glyphString);
+  if (options.nameFile) {
+    const text = Deno.readTextFileSync(options.nameFile);
+    const nameSet = new Set(text.trimEnd().split("\n"));
+    return filterByNameSet(font, nameSet);
+  } else if (options.ligatureFile) {
+    const text = Deno.readTextFileSync(options.ligatureFile);
+    const ligatureSet = new Set(text.trimEnd().split("\n"));
+    return filterByLigatureSet(font, ligatureSet);
+  } else if (options.name) {
+    const nameSet = new Set(options.name.split(","));
+    return filterByNameSet(font, nameSet);
+  } else if (options.ligature) {
+    const ligatureSet = new Set(options.ligature.split(","));
+    return filterByLigatureSet(font, ligatureSet);
   } else {
     return Object.values(font.glyphs.glyphs);
   }
