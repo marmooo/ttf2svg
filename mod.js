@@ -1,6 +1,6 @@
 import { parse } from "opentype.js";
 import svgpath from "svgpath";
-import { getLigatureMap, parseLigatures } from "./ligature.js";
+import { parseLigatures } from "./ligature.js";
 
 export { parse };
 
@@ -161,16 +161,16 @@ export function toGlyphTags(font, glyphs, options) {
 `;
   }
   if (!options.removeLigatures) {
-    const ligatures = getLigatureMap(font, "by");
-    Object.entries(ligatures).forEach(([key, ligature]) => {
-      const glyph = glyphs[Number(key)];
+    for (const ligature of parseLigatures(font)) {
+      const glyph = glyphs[ligature.by];
+      if (!glyph) continue;
       const d = glyph.path.toPathData();
       const glyphNameAttr = glyph.name ? `glyph-name="${glyph.name}"` : "";
       svg += `    <glyph ${glyphNameAttr} unicode="${ligature.name}"
       horiz-adv-x="${glyph.advanceWidth}" vert-adv-y="${height}"
       d="${d}"/>
 `;
-    });
+    }
   }
   if (options.removeNotdef) {
     return svg;
