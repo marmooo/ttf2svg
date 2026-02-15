@@ -4,7 +4,7 @@ import { parseLigatures } from "./ligature.js";
 
 export { parse };
 
-function svgHeader(font, options = {}) {
+function svgHeader(font, glyph, options = {}) {
   const {
     width = null,
     height = null,
@@ -23,12 +23,24 @@ function svgHeader(font, options = {}) {
     desc = font.descender;
   }
   if (desc > 0) desc = -desc;
+  let unicodeAttr = "";
+  let nameAttr = "";
+  if (typeof glyph.unicode === "number") {
+    const unicode = glyph.unicode === 34
+      ? "&#34;"
+      : String.fromCodePoint(glyph.unicode);
+    unicodeAttr = `data-unicode="${unicode}"`;
+    nameAttr = glyph.name ? `name="${glyph.name}"` : "";
+  } else {
+    unicodeAttr = "";
+    nameAttr = `name=".notdef"`;
+  }
   const widthAttr = width ? `width="${width}"` : "";
   const heightAttr = height ? `height="${height}"` : "";
   const upm = font.unitsPerEm;
   const vh = asc - desc;
   const copyright = fontToCopyright(font);
-  let svg = `<svg xmlns="http://www.w3.org/2000/svg"
+  let svg = `<svg xmlns="http://www.w3.org/2000/svg" ${nameAttr} ${unicodeAttr}
   ${widthAttr} ${heightAttr} viewBox="0 0 ${upm} ${vh}">
 `;
   if (copyright != "") {
@@ -58,7 +70,7 @@ export function toSVG(font, glyph, options = {}) {
     .toString();
   if (d == "") return undefined;
   const path = `<path d="${d}"/>`;
-  return svgHeader(font, options) + path + "\n</svg>";
+  return svgHeader(font, glyph, options) + path + "\n</svg>";
 }
 
 function getInfo(hash) {
