@@ -37,11 +37,11 @@ function svgHeader(font, glyph, options = {}) {
   }
   const widthAttr = width ? `width="${width}"` : "";
   const heightAttr = height ? `height="${height}"` : "";
-  const upm = font.unitsPerEm;
+  const vw = glyph.advanceWidth;
   const vh = asc - desc;
   const copyright = fontToCopyright(font);
   let svg = `<svg xmlns="http://www.w3.org/2000/svg" ${nameAttr} ${unicodeAttr}
-  ${widthAttr} ${heightAttr} viewBox="0 0 ${upm} ${vh}">
+  ${widthAttr} ${heightAttr} viewBox="0 0 ${vw} ${vh}">
 `;
   if (copyright != "") {
     svg += `  <!--
